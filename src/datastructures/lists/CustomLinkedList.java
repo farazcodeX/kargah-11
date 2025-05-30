@@ -1,7 +1,8 @@
 package datastructures.lists;
+
 import datastructures.interfaces.LinkedList;
 
-public class CustomLinkedList<T> implements LinkedList<T>{
+public class CustomLinkedList<T> implements LinkedList<T> {
     private static class Node<T> {
         T data;
         Node<T> next;
@@ -14,77 +15,167 @@ public class CustomLinkedList<T> implements LinkedList<T>{
 
     private Node<T> head, tail;
     private int size = 0;
-    @Override
-    public Object get(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
-    }
-    @Override
-    public Object set(int index, Object element) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'set'");
-    }
+
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
+        return size;
     }
+
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+        return size == 0;
     }
+
     @Override
     public boolean add(Object t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        addLast((T) t);
+        return true;
     }
+
     @Override
     public boolean contains(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+        Node<T> current = head;
+        while (current != null) {
+            if ((o == null && current.data == null) || (o != null && o.equals(current.data))) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
+
     @Override
     public boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        Node<T> current = head;
+        while (current != null) {
+            if ((o == null && current.data == null) || (o != null && o.equals(current.data))) {
+                if (current.prev != null) {
+                    current.prev.next = current.next;
+                } else {
+                    head = current.next;
+                }
+
+                if (current.next != null) {
+                    current.next.prev = current.prev;
+                } else {
+                    tail = current.prev;
+                }
+
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
+
     @Override
     public void addFirst(T t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addFirst'");
+        Node<T> newNode = new Node<>(t);
+        newNode.next = head;
+        if (head != null) {
+            head.prev = newNode;
+        }
+        head = newNode;
+        if (tail == null) {
+            tail = head;
+        }
+        size++;
     }
+
     @Override
     public void addLast(T t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addLast'");
+        Node<T> newNode = new Node<>(t);
+        newNode.prev = tail;
+        if (tail != null) {
+            tail.next = newNode;
+        }
+        tail = newNode;
+        if (head == null) {
+            head = tail;
+        }
+        size++;
     }
+
     @Override
     public T removeFirst() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFirst'");
+        if (head == null) return null;
+        T data = head.data;
+        head = head.next;
+        if (head != null) {
+            head.prev = null;
+        } else {
+            tail = null;
+        }
+        size--;
+        return data;
     }
+
     @Override
     public T removeLast() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeLast'");
+        if (tail == null) return null;
+        T data = tail.data;
+        tail = tail.prev;
+        if (tail != null) {
+            tail.next = null;
+        } else {
+            head = null;
+        }
+        size--;
+        return data;
     }
+
     @Override
     public T getFirst() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFirst'");
+        return head != null ? head.data : null;
     }
+
     @Override
     public T getLast() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getLast'");
+        return tail != null ? tail.data : null;
     }
+
+    @Override
+    public Object get(int index) {
+        checkIndex(index);
+        Node<T> current = nodeAt(index);
+        return current.data;
+    }
+
+    @Override
+    public Object set(int index, Object element) {
+        checkIndex(index);
+        Node<T> current = nodeAt(index);
+        T old = current.data;
+        current.data = (T) element;
+        return old;
+    }
+
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+        head = tail = null;
+        size = 0;
     }
 
-    // TODO: Override and fill the methods to complete the data structure
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
 
+    private Node<T> nodeAt(int index) {
+        Node<T> current;
+        if (index < size / 2) {
+            current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
+        }
+        return current;
+    }
 }
