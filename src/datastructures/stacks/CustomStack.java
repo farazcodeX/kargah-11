@@ -12,52 +12,63 @@ public class CustomStack<T> implements Queue<T> {
 
     @Override
     public boolean add(Object t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        try {
+            list.addFirst((T) t);
+            return true;
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to push element to stack", e);
+        }
     }
 
     @Override
     public boolean offer(Object t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'offer'");
+        try {
+            list.addFirst((T) t);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public T remove() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        if (list.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return list.removeFirst();
     }
 
     @Override
     public T poll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'poll'");
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.removeFirst(); 
     }
 
     @Override
     public T element() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'element'");
+        if (list.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return list.getFirst(); 
     }
 
     @Override
     public T peek() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'peek'");
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.getFirst();
     }
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+        return list.isEmpty();
     }
 
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
+        return list.size();
     }
-
-    // TODO: Override and fill the methods to complete the data structure
-
 }
