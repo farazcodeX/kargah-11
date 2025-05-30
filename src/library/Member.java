@@ -1,25 +1,32 @@
 package library;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Member {
     private String memberId;
     private String name;
-    // TODO: Define a data structure to hold transactions of each member
+
+    // Define a data structure to hold transactions of each member
+    private List<Transaction> transactions;
 
     public Member(String memberId, String name) {
         this.memberId = memberId;
         this.name = name;
-        // TODO: Initialize your data structure here
+        this.transactions = new ArrayList<>(); // Initialize the list
     }
 
     public String getMemberId() { return memberId; }
     public String getName() { return name; }
 
     public void addTransaction(Transaction transaction) {
-        // TODO
+        transactions.add(transaction);
     }
 
     public Transaction getLastTransaction() {
-        // TODO
+        if (!transactions.isEmpty()) {
+            return transactions.get(transactions.size() - 1);
+        }
         return null;
     }
 

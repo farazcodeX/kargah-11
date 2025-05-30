@@ -3,28 +3,41 @@ package management;
 import library.Member;
 import library.Transaction;
 
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class MemberManager {
-    // TODO: Define a data structure that stores memberIds and their matching member objects
+    private Map<String, Member> members;
+    private Map<String, List<Transaction>> transactions;
 
     public MemberManager() {
-        // TODO: Initialize your data structure here
+        members = new HashMap<>();
+        transactions = new HashMap<>();
     }
 
     public void addMember(Member member) {
-        // TODO: Add member and their id to your data structure
+        members.put(member.getMemberId(), member);
+        transactions.put(member.getMemberId(), new ArrayList<>());
     }
 
     public Member getMember(String memberId) {
-        // TODO
-        return null;
+        return members.get(memberId);
     }
 
     public void recordTransaction(String memberId, Transaction transaction) {
-        // TODO
+        List<Transaction> memberTransactions = transactions.get(memberId);
+        if (memberTransactions != null) {
+            memberTransactions.add(transaction);
+        }
     }
 
     public Transaction getLastTransaction(String memberId) {
-        // TODO
+        List<Transaction> memberTransactions = transactions.get(memberId);
+        if (memberTransactions != null && !memberTransactions.isEmpty()) {
+            return memberTransactions.get(memberTransactions.size() - 1);
+        }
         return null;
     }
 }
